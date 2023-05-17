@@ -20,6 +20,7 @@ void searchIP(const char *fileName, LRUCache *cache, const char *dns, const char
             if (isValidIP(ip) == 0) {
                 fclose(fp);
                 searchIP(fileName, cache, ip, token);
+                return;
             } else if (domen != NULL) put(cache, domen, ip);
             else put(cache, dns, ip);
         }

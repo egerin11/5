@@ -187,7 +187,6 @@ void getIP(LRUCache *cache, const char *key) {
     else return;
 }
 
-//write function for freeing memory struct Node, List, Table, Cache
 void freeNode(Node *node) {
     free(node->key);
     free(node->value);
