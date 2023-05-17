@@ -7,7 +7,7 @@ unsigned int murMurHash(const char *key, unsigned int seed) {
     unsigned int h = seed ^ len;
     const unsigned char *data = (const unsigned char *) key;
     while (len >= 4) {
-        unsigned int k = *(unsigned int *) data;
+        unsigned int k = *(unsigned int *)(void *)data;  // Явно приводим к void * сначала
         k *= m;
         k ^= k >> r;
         k *= m;
@@ -19,11 +19,14 @@ unsigned int murMurHash(const char *key, unsigned int seed) {
     switch (len) {
         case 3:
             h ^= data[2] << 16;
+            /* fall through */
         case 2:
             h ^= data[1] << 8;
+            /* fall through */
         case 1:
             h ^= data[0];
             h *= m;
+            /* fall through */
         default:
             break;
     }
@@ -32,6 +35,7 @@ unsigned int murMurHash(const char *key, unsigned int seed) {
     h ^= h >> 15;
     return h;
 }
+
 
 unsigned int hashGet(const char *str, int hashSize) {
     return murMurHash(str, 0) % hashSize;
